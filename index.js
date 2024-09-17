@@ -8,7 +8,8 @@
 
 // Function checks if local storage already has data, if not it loads initialData to localStorage
 function initializeData() {
-  if (!localStorage.getItem('tasks')) {
+  const tasks = localStorage.getItem('tasks')
+  if (!tasks) {
     localStorage.setItem('tasks', JSON.stringify(initialData)); 
     localStorage.setItem('showSideBar', 'true')
   } else {
@@ -18,7 +19,72 @@ function initializeData() {
 
 // TASK: Get elements from the DOM
 const elements = {
+// Side Bar Elements
+sideBar: document.getElementById('side-bar-div'),
+sideLogoDiv: document.getElementById('side-logo-div'),
+logo: document.getElementById('logo'),
+boardsNavLinksDiv: document.getElementById('boards-nav-links-div'),
+headlineSidepanel: document.getElementById('headline-sidepanel'),
 
+// Side Bar Bottom Elements (Theme Toggle and Hide Sidebar Button)
+toggleDiv: document.querySelector('.toggle-div'),
+iconDark: document.getElementById('icon-dark'),
+themeSwitch: document.getElementById('switch'),
+labelCheckboxTheme: document.getElementById('label-checkbox-theme'),
+iconLight: document.getElementById('icon-light'),
+hideSideBarDiv: document.querySelector('.hide-side-bar-div'),
+hideSideBarBtn: document.getElementById('hide-side-bar-btn'),
+
+// Show Side Bar Button
+showSideBarBtn: document.getElementById('show-side-bar-btn'),
+
+// Layout and Header Elements
+layout: document.getElementById('layout'),
+header: document.getElementById('header'),
+headerNameDiv: document.querySelector('.header-name-div'),
+headerBoardName: document.getElementById('header-board-name'),
+dropdownBtn: document.getElementById('dropdownBtn'),
+dropDownIcon: document.getElementById('dropDownIcon'),
+addNewTaskBtn: document.getElementById('add-new-task-btn'),
+editBoardBtn: document.getElementById('edit-board-btn'),
+editBoardDiv: document.getElementById('editBoardDiv'),
+deleteBoardBtn: document.getElementById('deleteBoardBtn'),
+
+// Task Columns
+todoColumnDiv: document.querySelector('[data-status="todo"]'),
+todoHeadDiv: document.getElementById('todo-head-div'),
+toDoText: document.getElementById('toDoText'),
+doingColumnDiv: document.querySelector('[data-status="doing"]'),
+doingHeadDiv: document.getElementById('doing-head-div'),
+doingText: document.getElementById('doingText'),
+doneColumnDiv: document.querySelector('[data-status="done"]'),
+doneHeadDiv: document.getElementById('done-head-div'),
+doneText: document.getElementById('doneText'),
+
+// Task Containers
+todoTasksContainer: document.querySelector('[data-status="todo"] .tasks-container'),
+doingTasksContainer: document.querySelector('[data-status="doing"] .tasks-container'),
+doneTasksContainer: document.querySelector('[data-status="done"] .tasks-container'),
+
+// Modal Elements for Adding a New Task
+newTaskModalWindow: document.getElementById('new-task-modal-window'),
+modalTitleInput: document.getElementById('title-input'),
+modalDescInput: document.getElementById('desc-input'),
+modalSelectStatus: document.getElementById('select-status'),
+createTaskBtn: document.getElementById('create-task-btn'),
+cancelAddTaskBtn: document.getElementById('cancel-add-task-btn'),
+
+// Edit Task Modal
+editTaskForm: document.getElementById('edit-task-form'),
+editTaskTitleInput: document.getElementById('edit-task-title-input'),
+editTaskDescInput: document.getElementById('edit-task-desc-input'),
+editSelectStatus: document.getElementById('edit-select-status'),
+saveTaskChangesBtn: document.getElementById('save-task-changes-btn'),
+cancelEditBtn: document.getElementById('cancel-edit-btn'),
+deleteTaskBtn: document.getElementById('delete-task-btn'),
+
+// Filter Div
+filterDiv: document.getElementById('filterDiv')
 }
 
 let activeBoard = ""
@@ -31,7 +97,7 @@ function fetchAndDisplayBoardsAndTasks() {
   displayBoards(boards);
   if (boards.length > 0) {
     const localStorageBoard = JSON.parse(localStorage.getItem("activeBoard"))
-    activeBoard = localStorageBoard ? localStorageBoard ;  boards[0]; 
+    activeBoard = localStorageBoard ? localStorageBoard :  boards[0]; 
     elements.headerBoardName.textContent = activeBoard
     styleActiveBoard(activeBoard)
     refreshTasksUI();
@@ -47,7 +113,7 @@ function displayBoards(boards) {
     const boardElement = document.createElement("button");
     boardElement.textContent = board;
     boardElement.classList.add("board-btn");
-    boardElement.click()  { 
+    boardElement.click(){ 
       elements.headerBoardName.textContent = board;
       filterAndDisplayTasksByBoard(board);
       activeBoard = board //assigns active board
