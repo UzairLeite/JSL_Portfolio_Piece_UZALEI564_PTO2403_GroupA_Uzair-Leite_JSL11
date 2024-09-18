@@ -1,11 +1,9 @@
 // TASK: import helper functions from utils
 // TASK: import initialData
 
-
 /*************************************************************************************************************************************************
  * FIX BUGS!!!
  * **********************************************************************************************************************************************/
-
 // Function checks if local storage already has data, if not it loads initialData to localStorage
 function initializeData() {
   const tasks = localStorage.getItem('tasks')
@@ -42,7 +40,7 @@ showSideBarBtn: document.getElementById('show-side-bar-btn'),
 layout: document.getElementById('layout'),
 header: document.getElementById('header'),
 headerNameDiv: document.querySelector('.header-name-div'),
-headerBoardName: document.getElementById('header-board-name'),
+ 
 dropdownBtn: document.getElementById('dropdownBtn'),
 dropDownIcon: document.getElementById('dropDownIcon'),
 addNewTaskBtn: document.getElementById('add-new-task-btn'),
@@ -95,11 +93,15 @@ function fetchAndDisplayBoardsAndTasks() {
   const tasks = getTasks();
   const boards = [...new Set(tasks.map(task => task.board).filter(Boolean))];
   displayBoards(boards);
-  if (boards.length > 0) {
+  if(boards.length > 0) {
+    // Retrieve active board from localStorage or default to the first board
     const localStorageBoard = JSON.parse(localStorage.getItem("activeBoard"))
-    activeBoard = localStorageBoard ? localStorageBoard :  boards[0]; 
-    elements.headerBoardName.textContent = activeBoard
-    styleActiveBoard(activeBoard)
+    activeBoard = localStorageBoard ? localStorageBoard : boards[0]; 
+    elements.headerBoardName.textContent = activeBoard;
+    const activeBoardElement = document.querySelector(`button.board-btn:contains('${activeBoard}')`);
+    if (activeBoardElement) {
+      styleActiveBoard(activeBoardElement); // Pass the DOM element for styling
+    }
     refreshTasksUI();
   }
 }
@@ -113,13 +115,13 @@ function displayBoards(boards) {
     const boardElement = document.createElement("button");
     boardElement.textContent = board;
     boardElement.classList.add("board-btn");
-    boardElement.click(){ 
+    boardElement.addEventListener("click", () => { 
       elements.headerBoardName.textContent = board;
       filterAndDisplayTasksByBoard(board);
       activeBoard = board //assigns active board
       localStorage.setItem("activeBoard", JSON.stringify(activeBoard))
       styleActiveBoard(activeBoard)
-    };
+    });
     boardsContainer.appendChild(boardElement);
   });
 
@@ -129,10 +131,9 @@ function displayBoards(boards) {
 // TASK: Fix Bugs
 function filterAndDisplayTasksByBoard(boardName) {
   const tasks = getTasks(); // Fetch tasks from a simulated local storage function
-  const filteredTasks = tasks.filter(task => task.board = boardName);
+  const filteredTasks = tasks.filter(task => task.board === boardName);
 
   // Ensure the column titles are set outside of this function or correctly initialized before this function runs
-
   elements.columnDivs.forEach(column => {
     const status = column.getAttribute("data-status");
     // Reset column content while preserving the column title
@@ -142,16 +143,17 @@ function filterAndDisplayTasksByBoard(boardName) {
                         </div>`;
 
     const tasksContainer = document.createElement("div");
+    tasksContainer,classList.add('task-container');
     column.appendChild(tasksContainer);
 
-    filteredTasks.filter(task => task.status = status).forEach(task => { 
+    filteredTasks.filter(task => task.status === status).forEach(task => { 
       const taskElement = document.createElement("div");
       taskElement.classList.add("task-div");
       taskElement.textContent = task.title;
       taskElement.setAttribute('data-task-id', task.id);
 
       // Listen for a click event on each task and open a modal
-      taskElement.click() => { 
+      taskElement.addEventListener("click", () => { 
         openEditTaskModal(task);
       });
 
@@ -160,7 +162,6 @@ function filterAndDisplayTasksByBoard(boardName) {
   });
 }
 
-
 function refreshTasksUI() {
   filterAndDisplayTasksByBoard(activeBoard);
 }
@@ -168,17 +169,16 @@ function refreshTasksUI() {
 // Styles the active board by adding an active class
 // TASK: Fix Bugs
 function styleActiveBoard(boardName) {
-  document.querySelectorAll('.board-btn').foreach(btn => { 
+  document.querySelectorAll('.board-btn').forEach(btn => { 
     
     if(btn.textContent === boardName) {
-      btn.add('active') 
+      btn.classList.add('active') 
     }
     else {
-      btn.remove('active'); 
+      btn.classList.remove('active'); 
     }
   });
 }
-
 
 function addTaskToUI(task) {
   const column = document.querySelector('.column-div[data-status="${task.status}"]'); 
@@ -202,8 +202,6 @@ function addTaskToUI(task) {
   
   tasksContainer.appendChild(); 
 }
-
-
 
 function setupEventListeners() {
   // Cancel editing task event listener
