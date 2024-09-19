@@ -1,4 +1,4 @@
-import { getTasks, createNewTask, patchTask, deleteTask, saveTasks } from './utils/taskFunctions.js';
+import { getTasks, createNewTask, patchTask, deleteTask } from './utils/taskFunctions.js';
 import { initialData } from './initialData.js';
 
 // Initialize data in local storage
@@ -176,6 +176,8 @@ function addTask(event) {
     title: document.getElementById('task-title-input').value,
     board: activeBoard,
     status: 'todo',
+    status: 'doing',
+    status: 'done',
     id: new Date().getTime()
   };
 
