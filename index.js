@@ -1,10 +1,7 @@
-// TASK: import helper functions from utils
-// TASK: import initialData
+import { getTasks, saveTasks, createNewTask, patchTask, putTask, deleteTask } from `utils/taskFunction.js`;
+import { initialData } from `./initialData.js`;
 
-/*************************************************************************************************************************************************
- * FIX BUGS!!!
- * **********************************************************************************************************************************************/
-// Function checks if local storage already has data, if not it loads initialData to localStorage
+// Initialize data in local storage
 function initializeData() {
   const tasks = localStorage.getItem('tasks')
   if (!tasks) {
@@ -15,18 +12,15 @@ function initializeData() {
   }
 }
 
-// TASK: Get elements from the DOM
+// Get elements from the DOM
 const elements = {
 // Side Bar Elements
 sideBar: document.getElementById('side-bar-div'),
-sideLogoDiv: document.getElementById('side-logo-div'),
-logo: document.getElementById('logo'),
 boardsNavLinksDiv: document.getElementById('boards-nav-links-div'),
 headlineSidepanel: document.getElementById('headline-sidepanel'),
 
 // Side Bar Bottom Elements (Theme Toggle and Hide Sidebar Button)
 toggleDiv: document.querySelector('.toggle-div'),
-iconDark: document.getElementById('icon-dark'),
 themeSwitch: document.getElementById('switch'),
 labelCheckboxTheme: document.getElementById('label-checkbox-theme'),
 iconLight: document.getElementById('icon-light'),
@@ -42,7 +36,6 @@ header: document.getElementById('header'),
 headerNameDiv: document.querySelector('.header-name-div'),
  
 dropdownBtn: document.getElementById('dropdownBtn'),
-dropDownIcon: document.getElementById('dropDownIcon'),
 addNewTaskBtn: document.getElementById('add-new-task-btn'),
 editBoardBtn: document.getElementById('edit-board-btn'),
 editBoardDiv: document.getElementById('editBoardDiv'),
@@ -88,7 +81,6 @@ filterDiv: document.getElementById('filterDiv')
 let activeBoard = ""
 
 // Extracts unique board names from tasks
-// TASK: FIX BUGS
 function fetchAndDisplayBoardsAndTasks() {
   const tasks = getTasks();
   const boards = [...new Set(tasks.map(task => task.board).filter(Boolean))];
@@ -107,7 +99,6 @@ function fetchAndDisplayBoardsAndTasks() {
 }
 
 // Creates different boards in the DOM
-// TASK: Fix Bugs
 function displayBoards(boards) {
   const boardsContainer = document.getElementById("boards-nav-links-div");
   boardsContainer.innerHTML = ''; // Clears the container
@@ -128,7 +119,6 @@ function displayBoards(boards) {
 }
 
 // Filters tasks corresponding to the board name and displays them on the DOM.
-// TASK: Fix Bugs
 function filterAndDisplayTasksByBoard(boardName) {
   const tasks = getTasks(); // Fetch tasks from a simulated local storage function
   const filteredTasks = tasks.filter(task => task.board === boardName);
@@ -166,8 +156,7 @@ function refreshTasksUI() {
   filterAndDisplayTasksByBoard(activeBoard);
 }
 
-// Styles the active board by adding an active class
-// TASK: Fix Bugs
+// Styles the active board
 function styleActiveBoard(boardName) {
   document.querySelectorAll('.board-btn').forEach(btn => { 
     
@@ -206,7 +195,7 @@ function addTaskToUI(task) {
 function setupEventListeners() {
   // Cancel editing task event listener
   const cancelEditBtn = document.getElementById('cancel-edit-btn');
-  cancelEditBtn.click() => toggleModal(false, elements.editTaskModal));
+  cancelEditBtn.addEventListener(`click`, () => { toggleModal(false, elements.editTaskModal)});
 
   // Cancel adding new task event listener
   const cancelAddTaskBtn = document.getElementById('cancel-add-task-btn');
@@ -222,8 +211,8 @@ function setupEventListeners() {
   });
 
   // Show sidebar event listener
-  elements.hideSideBarBtn.click() => toggleSidebar(false));
-  elements.showSideBarBtn.click() => toggleSidebar(true));
+  elements.hideSideBarBtn.addEventListener(`click`, () => { toggleSidebar(false)});
+  elements.showSideBarBtn.addEventListener(`click`, () => { toggleSidebar(true)});
 
   // Theme switch event listener
   elements.themeSwitch.addEventListener('change', toggleTheme);
@@ -236,14 +225,14 @@ function setupEventListeners() {
 
   // Add new task form submission event listener
   elements.modalWindow.addEventListener('submit',  (event) => {
-    addTask(event)
+    event.preventDefault(); // Prevent default form submission behavior
+    addTask(event);
   });
 }
 
 // Toggles tasks modal
-// Task: Fix bugs
 function toggleModal(show, modal = elements.modalWindow) {
-  modal.style.display = show ? 'block' => 'none'; 
+  modal.style.display = show ? 'block' : 'none'; 
 }
 
 /*************************************************************************************************************************************************
