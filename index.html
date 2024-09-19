@@ -27,8 +27,8 @@
         <div class="side-bar-bottom">
             <div class="toggle-div">
                 <img src="./assets/icon-dark-theme.svg" id="icon-dark" alt="icon-dark-theme">
-                <input type="checkbox" id="switch" />
-                <label for="switch" id="label-checkbox-theme"></label>
+                <input type="checkbox" id="theme-switch" />
+                <label for="theme-switch" id="label-checkbox-theme"></label>
                 <img src="./assets/icon-light-theme.svg" id="icon-light" alt="icon-light-theme">
             </div>
             <div class="hide-side-bar-div">
@@ -97,8 +97,8 @@
     <form class="modal-window" id="new-task-modal-window">
         <h4 class="modal-title">Add New Task</h4>
         <div class="input-div">
-            <label class="label-modal-window" id="modal-title-input" for="title-input">Title</label>
-            <input type="text" class="modal-input" id="title-input" placeholder="e.g. Take a little break">
+            <label class="label-modal-window" id="modal-title-input" for="task-title-input">Title</label>
+            <input type="text" class="modal-input" id="task-title-input" placeholder="e.g. Take a little break">
         </div>
         <div class="input-div">
             <label class="label-modal-window" id="modal-desc-input" for="desc-input">Description</label>
@@ -113,13 +113,13 @@
             </select>
         </div>
         <div class="button-group">
-            <button type="submit" class="submit-btn" id="create-task-btn">Create Task</button>
+            <button type="submit" class="submit-btn" id="create-new-task-btn">Create Task</button>
             <button type="button" class="submit-btn" id="cancel-add-task-btn">Cancel</button>
         </div>
     </form>
 
     <!-- Edit Task Modal: Form for editing an existing task's details. -->
-    <div class="edit-task-modal-window">
+    <div id="edit-task-modal-window" class="modal-window">
         <form id="edit-task-form">
             <div class="edit-task-div" id="edit-task-header">
                 <input type="text" id="edit-task-title-input" class="task-title-input" placeholder="Task Title">
@@ -129,8 +129,8 @@
                 <textarea id="edit-task-desc-input" class="edit-task-description-input" placeholder="Task Description"></textarea>
             </div>
             <div class="edit-task-div">
-                <label class="label-modal-window" for="edit-select-status">Current Status</label>
-                <select name="status" id="edit-select-status">
+                <label class="label-modal-window" for="edit-task-status-select">Current Status</label>
+                <select name="status" id="edit-task-status-select">
                     <option value="todo">todo</option>
                     <option value="doing">doing</option>
                     <option value="done">done</option>
@@ -145,7 +145,7 @@
     </div>
 
 
-    <div id="filterDiv"></div>
+    <div id="filter-div"></div>
 
     <!-- JavaScript Import -->
     <script type="module" src="./index.js"></script>

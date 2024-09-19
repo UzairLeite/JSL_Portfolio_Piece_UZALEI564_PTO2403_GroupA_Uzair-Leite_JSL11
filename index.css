@@ -180,7 +180,7 @@ h4 {
   bottom: 45px;
   border-radius: 0 20px 20px 0;
   background-color: #219C90;
-  display: none;
+  display: block;
   cursor: pointer;
 }
 
