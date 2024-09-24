@@ -554,9 +554,9 @@ h2 {
   width: 100%;
 }
 
-/* textarea#edit-task-desc.input.edit-task-description-input {
+textarea#edit-task-desc.input.edit-task-description-input {
   color: red;
-} */
+}
 
 /* Modal Window */
 
@@ -567,7 +567,7 @@ h2 {
 }
 
 .modal-window {
-  /* border: 5px solid red; */
+  border: 5px solid rgba(49, 55, 223, 0.709);
   display: flex;
   flex-direction: column;
   position: fixed;
